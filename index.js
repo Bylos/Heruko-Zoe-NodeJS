@@ -1,10 +1,10 @@
 const express = require('express')
 const path = require('path')
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5687
 
 const app = express()
 
-app.get('/', function (req, res) {
+app.post('/', function (req, res) {
 	res.json({'speech': 'bla bla bla', 'displayText': 'bla bla bla'});
 	console.log('We did have a request');
 })
