@@ -6,6 +6,7 @@ const app = express()
 
 app.get('/', function (req, res) {
 	res.send('Hello World !')
+	console.log('We did have a request')
 })
 
 app.listen(PORT, function () {
