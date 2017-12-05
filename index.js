@@ -44,7 +44,7 @@ wss.on('connection', function connection(ws, req) {
 	
 	ws.on('close', function closing(code, reason) {
 		console.log('Connection closed with code', code, reason);
-		console.log('Device was ', this.device');
+		console.log('Device was ', this.device);
 	});
 });
 
