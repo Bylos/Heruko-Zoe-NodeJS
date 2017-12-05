@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "A sample Node.js app using Express 4",
   "engines": {
-    "node": "8.9.1"
+    "node": "9.2.0"
   },
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,9 @@
   "dependencies": {
     "ejs": "^2.5.6",
     "express": "^4.15.2"
+	"ws": "^3.3.2"
+	"url": 
+	"http": 
   },
   "devDependencies": {
     "request": "^2.81.0",
