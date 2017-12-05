@@ -14,15 +14,6 @@ app.post('/', function (req, res) {
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server:server, path:"/ws" });
 
-function DevHandler(ws, device, room) {
-	this.ws = ws;
-	this.device = device;
-	this.room = room;
-}
-module.exports = DevHandler;
-
-var handlers = [];
-
 wss.on('connection', function connection(ws, req) {
 	const location = url.parse(req.url, true);
 	console.log('New ws connection from  - waiting for info');
@@ -31,11 +22,9 @@ wss.on('connection', function connection(ws, req) {
 		var jsonContent = JSON.parse(message);
 		// check for info content
 		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
-			var devHandler = new DevHandler(this, jsonContent.device, jsonContent.room);
-			handlers.push(devHandler);
-			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added, length:', handlers.length);
-			this.room = devHandler.room;
-			this.device = devHandler.device;
+			this.room = jsonContent.device;
+			this.device = jsonContent.room;
+			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added, total:', wss.clients.length);
 		}
 		else {
 			console.log('Unknown message from a ws :', message);
@@ -43,8 +32,7 @@ wss.on('connection', function connection(ws, req) {
 	});
 	
 	ws.on('close', function closing(code, reason) {
-		console.log('Connection closed with code', code, reason);
-		console.log('Device was ', this.device);
+		console.log('Device', this.device, 'in room', this.room', disconnected with code', code, 'total', wss.clients.length);
 	});
 });
 
