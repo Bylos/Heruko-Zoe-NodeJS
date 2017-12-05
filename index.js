@@ -41,6 +41,6 @@ app.post('/', function (req, res) {
 	console.log('We did have a request');
 });
 
-app.listen(PORT, function listening() {
+server.listen(PORT, function listening() {
 	console.log('Listening on %d', server.address().port);
 });
