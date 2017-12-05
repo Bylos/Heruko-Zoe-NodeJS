@@ -12,7 +12,7 @@ app.post('/', function (req, res) {
 });
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server:server, path:"/ws" });
+const wss = new WebSocket.Server({ server:server, path:"/ws", clientTracking:true });
 
 wss.on('connection', function connection(ws, req) {
 	const location = url.parse(req.url, true);
