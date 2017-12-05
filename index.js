@@ -36,7 +36,7 @@ wss.on('connection', function connection(ws, req) {
 			handler.push(devHandler);
 			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added'); 
 		} else {
-			console.log('Unknown message from a ws');
+			console.log('Unknown message from a ws :', message);
 		}
 	});
 	
