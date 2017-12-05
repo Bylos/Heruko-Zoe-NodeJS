@@ -11,12 +11,15 @@ app.post('/', function (req, res) {
 	console.log('We did have a request');
 });
 
+// create websocket server based on http server based on express framework
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server:server, path:"/ws", clientTracking:true });
 
+// manage new websocket server connections here and add methods
 wss.on('connection', function connection(ws, req) {
+	
 	const location = url.parse(req.url, true);
-	console.log('New ws connection from  - waiting for info');
+	console.log('New ws connection from  - waiting for info', this.clients.size);
 	
 	ws.on('message', function incoming(message) {
 		var jsonContent = JSON.parse(message);
@@ -24,7 +27,7 @@ wss.on('connection', function connection(ws, req) {
 		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			this.room = jsonContent.device;
 			this.device = jsonContent.room;
-			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.length);
+			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.size);
 		}
 		else {
 			console.log('Unknown message from a ws :', message);
@@ -32,7 +35,7 @@ wss.on('connection', function connection(ws, req) {
 	});
 	
 	ws.on('close', function closing(code, reason) {
-		console.log('Device', this.device, 'in room', this.room, 'disconnected with code', code, 'total', wss.clients.length);
+		console.log('Device', this.device, 'in room', this.room, 'disconnected with code', code, 'total', wss.clients.size);
 	});
 });
 
