@@ -25,17 +25,17 @@ var handlers = [];
 
 wss.on('connection', function connection(ws, req) {
 	const location = url.parse(req.url, true);
-	console.log('New ws connection from ', location, ' - waiting for info');
+	console.log('New ws connection from  - waiting for info');
 	
 	ws.on('message', function incoming(message) {
-		console.log('Received: %s', message);
 		var jsonContent = JSON.parse(message);
 		// check for info content
 		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			var devHandler = new DevHandler(this, jsonContent.device, jsonContent.room);
-			handler.push(devHandler);
+			handlers.push(devHandler);
 			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added'); 
-		} else {
+		}
+		else {
 			console.log('Unknown message from a ws :', message);
 		}
 	});
