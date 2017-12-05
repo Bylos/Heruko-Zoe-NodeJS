@@ -12,7 +12,7 @@ app.post('/', function (req, res) {
 });
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server:server, path:"/ws" });
 
 function DevHandler(ws, device, room) {
 	this.ws = ws;
@@ -33,13 +33,18 @@ wss.on('connection', function connection(ws, req) {
 		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			var devHandler = new DevHandler(this, jsonContent.device, jsonContent.room);
 			handlers.push(devHandler);
-			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added'); 
+			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added, length:', handlers.length);
+			this.room = devHandler.room;
+			this.device = devHandler.device;
 		}
 		else {
 			console.log('Unknown message from a ws :', message);
 		}
 	});
 	
+	ws.on('close', function closing(code, reason) {
+		console.log('Connection closed with code', code, reason);
+	});
 });
 
 server.listen(PORT, function listening() {
