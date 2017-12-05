@@ -36,11 +36,11 @@ wss.on('connection', function connection(ws, req) {
 	});
 });
 
-server.post('/', function (req, res) {
+app.post('/', function (req, res) {
 	res.json({ 'speech': 'bla bla bla', 'displayText': 'bla bla bla' });
 	console.log('We did have a request');
 });
 
-server.listen(PORT, function listening() {
+app.listen(PORT, function listening() {
 	console.log('Listening on %d', server.address().port);
 });
