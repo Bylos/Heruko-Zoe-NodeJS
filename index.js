@@ -32,7 +32,7 @@ wss.on('connection', function connection(ws, req) {
 	});
 	
 	ws.on('close', function closing(code, reason) {
-		console.log('Device', this.device, 'in room', this.room', disconnected with code', code, 'total', wss.clients.length);
+		console.log('Device', this.device, 'in room', this.room, 'disconnected with code', code, 'total', wss.clients.length);
 	});
 });
 
