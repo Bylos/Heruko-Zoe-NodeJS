@@ -24,7 +24,7 @@ wss.on('connection', function connection(ws, req) {
 		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			this.room = jsonContent.device;
 			this.device = jsonContent.room;
-			console.log('Device', devHandler.device, 'in room', devHandler.room, 'was added, total:', wss.clients.length);
+			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.length);
 		}
 		else {
 			console.log('Unknown message from a ws :', message);
