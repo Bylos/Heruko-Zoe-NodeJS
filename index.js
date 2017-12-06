@@ -51,7 +51,7 @@ app.post('/', function (req, res) {
 		var action = parameters.action;
 		if (device !== undefined && room !== undefined && action !== undefined) {
 			for (let client of wss.clients) {
-				if (client.hasOwnProperty('registered') {
+				if (client.hasOwnProperty('registered')) {
 					if (client.room == room && client.device == device) {
 						client.send(JSON.stringify(parameters);
 						found = true;
