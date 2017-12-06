@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
@@ -8,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server:server, path:"/ws", clientTracking:true });
 
-// manage new websocket server connections here and add methods
+// manage websocket connections from devices
 wss.on('connection', function connection(ws, req) {
 	// url parsing could serve later to authenticate devices
 	const location = url.parse(req.url, true);
@@ -18,7 +19,7 @@ wss.on('connection', function connection(ws, req) {
 	ws.on('message', function incoming(message) {
 		var jsonContent = JSON.parse(message);
 		// check for info content
-		if( jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
+		if (jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			this.room = jsonContent.device;
 			this.device = jsonContent.room;
 			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.size);
@@ -36,9 +37,22 @@ wss.on('connection', function connection(ws, req) {
 	});
 });
 
+// manage requests from dialogflow
+
+app.use(bodyParser.json());
+
 app.post('/', function (req, res) {
+	var jsonContent = req.body;
+	if (jsonContent.hasOwnProperty('request')) {
+		var request = jsonContent.request;
+		if (request.hasOwnProperty('params')) {
+			var params = request.params;
+			console.log('HTTP POST Request :', JSON.stringify(params));
+	}
+	else {
+		console.log('Unhandled HTTP POST request');
+	}
 	res.json({ 'speech': 'bla bla bla', 'displayText': 'bla bla bla' });
-	console.log('We did have a request');
 });
 
 server.listen(PORT, function listening() {
