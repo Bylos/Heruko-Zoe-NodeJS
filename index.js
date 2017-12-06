@@ -43,6 +43,7 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
 	var jsonContent = req.body;
+	console.log(req.body);
 	if (jsonContent.hasOwnProperty('result')) {
 		var request = jsonContent.request;
 		if (request.hasOwnProperty('parameters')) {
