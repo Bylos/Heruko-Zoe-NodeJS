@@ -48,6 +48,10 @@ app.post('/', function (req, res) {
 		if (request.hasOwnProperty('parameters')) {
 			var params = request.params;
 			console.log('HTTP POST Request :', JSON.stringify(params));
+		}
+		else {
+			console.log('Unhandled HTTP POST request');
+		}
 	}
 	else {
 		console.log('Unhandled HTTP POST request');
