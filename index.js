@@ -43,9 +43,9 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
 	var jsonContent = req.body;
-	if (jsonContent.hasOwnProperty('request')) {
+	if (jsonContent.hasOwnProperty('result')) {
 		var request = jsonContent.request;
-		if (request.hasOwnProperty('params')) {
+		if (request.hasOwnProperty('parameters')) {
 			var params = request.params;
 			console.log('HTTP POST Request :', JSON.stringify(params));
 	}
