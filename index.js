@@ -42,17 +42,9 @@ wss.on('connection', function connection(ws, req) {
 app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
-	var jsonContent = req.body;
-	console.log(req.body);
-	if (jsonContent.hasOwnProperty('result')) {
-		var request = jsonContent.request;
-		if (request.hasOwnProperty('parameters')) {
-			var params = request.params;
-			console.log('HTTP POST Request :', JSON.stringify(params));
-		}
-		else {
-			console.log('Unhandled HTTP POST request');
-		}
+	var parameters = req.body.result.parameters;
+	if (parameters !== undefined) {
+		console.log('HTTP POST Request :', JSON.stringify(parameters));
 	}
 	else {
 		console.log('Unhandled HTTP POST request');
