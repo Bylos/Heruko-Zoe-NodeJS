@@ -22,6 +22,7 @@ wss.on('connection', function connection(ws, req) {
 		if (jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
 			this.room = jsonContent.device;
 			this.device = jsonContent.room;
+			this.registered = true;
 			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.size);
 		}
 		// check for command or state response here
@@ -38,18 +39,36 @@ wss.on('connection', function connection(ws, req) {
 });
 
 // manage requests from dialogflow
-
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
+	var found = false;
 	var parameters = req.body.result.parameters;
 	if (parameters !== undefined) {
-		console.log('HTTP POST Request :', JSON.stringify(parameters));
+		var device = parameters.device;
+		var room = parameters.room;
+		var action = parameters.action;
+		if (device !== undefined && room !== undefined && action !== undefined) {
+			for (let client of wss.clients) {
+				if (client.hasOwnProperty('registered') {
+					if (client.room == room && client.device == device) {
+						client.send(JSON.stringify(parameters);
+						found = true;
+					}
+				}
+			}
+			if (found == true) {
+				res.json({ 'speech': 'C\'est fait', 'displayText': 'C\'est fait' });
+			}
+			else {
+				res.json({ 'speech': 'Je n\'ai pas trouvé cet objet', 'displayText': 'Je n\'ai pas trouvé cet objet' });
+			}
+		}
 	}
 	else {
 		console.log('Unhandled HTTP POST request');
 	}
-	res.json({ 'speech': 'bla bla bla', 'displayText': 'bla bla bla' });
 });
 
 server.listen(PORT, function listening() {
