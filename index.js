@@ -20,8 +20,8 @@ wss.on('connection', function connection(ws, req) {
 		var jsonContent = JSON.parse(message);
 		// check for info content
 		if (jsonContent.hasOwnProperty('device') && jsonContent.hasOwnProperty('room')) {
-			this.room = jsonContent.device;
-			this.device = jsonContent.room;
+			this.device = jsonContent.device;
+			this.room = jsonContent.room;
 			this.registered = true;
 			console.log('Device', this.device, 'in room', this.room, 'was added, total:', wss.clients.size);
 		}
