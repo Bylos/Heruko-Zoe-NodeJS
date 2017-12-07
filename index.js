@@ -46,6 +46,7 @@ app.post('/', function (req, res) {
 	var found = false;
 	var parameters = req.body.result.parameters;
 	if (parameters !== undefined) {
+		console.log(parameters);
 		var device = parameters.device;
 		var room = parameters.room;
 		var action = parameters.action;
